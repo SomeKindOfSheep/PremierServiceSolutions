@@ -1,22 +1,60 @@
 package com.pss.premierservicesolutions.services;
 
 
-import com.pss.premierservicesolutions.models.Call;
-import com.pss.premierservicesolutions.models.Client;
-import com.pss.premierservicesolutions.models.Contract;
-import com.pss.premierservicesolutions.models.WorkRequest;
+import com.pss.premierservicesolutions.models.*;
+import com.pss.premierservicesolutions.repositories.CallRepository;
+import com.pss.premierservicesolutions.repositories.ClientRepository;
+import com.pss.premierservicesolutions.repositories.ContractRepository;
+import com.pss.premierservicesolutions.repositories.WorkRequestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class CallCentreService {
 
-        public void getCall(Call call){}
+        @Autowired
+        CallRepository callRepository;
 
-        public Client displayClientDetails(){
-                return null;
+        @Autowired
+        ClientRepository clientRepository;
+
+        @Autowired
+        WorkRequestRepository workRequestRepository;
+
+        @Autowired
+        ContractRepository contractRepository;
+
+        @Autowired
+        Employee employee;
+
+
+
+        public void addCall(Call call){}
+
+        public Call getCall(long callId){
+                return callRepository.getOne(1);
         }
 
-        public WorkRequest submitWorkRequest(){return null;}
+        public Client displayClientDetails(long clientId){
+              return  clientRepository.getOne(1);
+        }
 
-        public Contract viewClientContracts(){return null;}
+
+        public void submitWorkRequest(WorkRequest workRequest){
+
+        }
+
+        public void addDetailsToWorkRequest(long workRequestId){
+                workRequestRepository.getOne(1);
+        }
+
+        public List<Call> viewCallsForClient(long clientId){
+                return callRepository.findAllById(clientId);
+        }
+
+        public List<Contract> viewClientContracts(long clientId){
+                return contractRepository.findAllById(clientId);
+        }
 
         public void endAndLogCall(Call call){}
 

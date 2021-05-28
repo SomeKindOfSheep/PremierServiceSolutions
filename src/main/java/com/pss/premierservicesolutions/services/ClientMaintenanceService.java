@@ -2,17 +2,27 @@ package com.pss.premierservicesolutions.services;
 
 
 import com.pss.premierservicesolutions.models.Client;
+import com.pss.premierservicesolutions.repositories.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ClientMaintenanceService {
 
-    public void addClient(){}
+    @Autowired
+    ClientRepository clientRepository;
 
-    public Client viewClient(){return null;}
+    public void addClient(Client client){}
+
+    public Client viewClient(long clientId){
+
+        return clientRepository.getOne(1);
+    }
 
 
-    public Client updateClientDetails(Client client){return null;}
+    public Client updateClientDetails(long clientId){ return clientRepository.getOne(1);}
 
 
-    public Client removeClient(Client client){return null;}
+    public void removeClient(Client client){
+        clientRepository.delete(client);
+    }
 
 }
