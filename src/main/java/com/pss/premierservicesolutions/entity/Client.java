@@ -39,4 +39,7 @@ public class Client {
     @OneToMany
     @Nullable
     private List<Contract> contract;
+
+    @OneToMany
+    private List<Call> calls;
 }

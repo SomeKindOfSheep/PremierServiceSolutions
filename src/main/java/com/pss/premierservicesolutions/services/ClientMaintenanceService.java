@@ -3,6 +3,7 @@ package com.pss.premierservicesolutions.services;
 
 import com.pss.premierservicesolutions.entity.Client;
 import com.pss.premierservicesolutions.repositories.ClientRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +24,10 @@ public class ClientMaintenanceService {
     }
 
 
-    public Client updateClientDetails(long clientId){
-        return clientRepository.getOne(clientId);
-    }
-
-
-    public void removeClient(Client client){
-        clientRepository.delete(client);
+    public Client updateClientDetails(long clientId, Client client){
+        Client existingClient = clientRepository.getOne(clientId);
+        BeanUtils.copyProperties(client,existingClient,"id");
+        return clientRepository.saveAndFlush(existingClient);
     }
 
 }

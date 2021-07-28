@@ -2,9 +2,8 @@ package com.pss.premierservicesolutions.entity;
 
 public enum State {
 
-    CALL_OPEN,
     CALL_QUERY,
-    CALL_CLOSED,
+    CALL_DONE,
 
     COMPLAINT_OPEN,
     COMPLAINT_NEW_INFORMATION,

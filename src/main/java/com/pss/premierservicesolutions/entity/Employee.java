@@ -20,7 +20,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "callSeq", sequenceName = "call_seq", schema = "premier_service_solutions", allocationSize = 1)
+    @SequenceGenerator(name = "employeeSeq", sequenceName = "employee_seq", schema = "premier_service_solutions", allocationSize = 1)
     private long id;
 
     @Column(name = "name")
