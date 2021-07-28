@@ -1,15 +1,14 @@
 package com.pss.premierservicesolutions.services;
 
 
-import com.pss.premierservicesolutions.models.*;
-import com.pss.premierservicesolutions.repositories.CallRepository;
-import com.pss.premierservicesolutions.repositories.ClientRepository;
-import com.pss.premierservicesolutions.repositories.ContractRepository;
-import com.pss.premierservicesolutions.repositories.WorkRequestRepository;
+import com.pss.premierservicesolutions.entity.*;
+import com.pss.premierservicesolutions.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CallCentreService {
 
         @Autowired
@@ -25,27 +24,21 @@ public class CallCentreService {
         ContractRepository contractRepository;
 
         @Autowired
-        Employee employee;
+        EmployeeRepository employeeRepository;
 
 
 
-        public void addCall(Call call){}
 
         public Call getCall(long callId){
-                return callRepository.getOne(1);
+                return callRepository.getOne(callId);
         }
 
         public Client displayClientDetails(long clientId){
-              return  clientRepository.getOne(1);
-        }
-
-
-        public void submitWorkRequest(WorkRequest workRequest){
-
+              return  clientRepository.getOne(clientId);
         }
 
         public void addDetailsToWorkRequest(long workRequestId){
-                workRequestRepository.getOne(1);
+                workRequestRepository.getOne(workRequestId);
         }
 
         public List<Call> viewCallsForClient(long clientId){
@@ -56,7 +49,9 @@ public class CallCentreService {
                 return contractRepository.findAllById(clientId);
         }
 
-        public void endAndLogCall(Call call){}
+        public void endAndLogCall(Call call){
+                callRepository.saveAndFlush(call);
+        }
 
 
 

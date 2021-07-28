@@ -1,9 +1,9 @@
 package com.pss.premierservicesolutions.repositories;
 
-import com.pss.premierservicesolutions.models.WorkRequest;
+import com.pss.premierservicesolutions.entity.WorkRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WorkRequestRepository extends JpaRepository<WorkRequest, Integer> {
+public interface WorkRequestRepository extends JpaRepository<WorkRequest, Long> {
 }

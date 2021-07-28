@@ -11,6 +11,6 @@ public class Scheduler {
     @Async
     @Scheduled(fixedRate = 1000)
     public void scheduledTask(){
-        System.out.println("Scheduler test");
+        //System.out.println("Scheduler test");
     }
 }

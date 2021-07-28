@@ -1,12 +1,14 @@
 package com.pss.premierservicesolutions.services;
 
 
-import com.pss.premierservicesolutions.models.Call;
-import com.pss.premierservicesolutions.models.Complaint;
-import com.pss.premierservicesolutions.models.State;
+import com.pss.premierservicesolutions.entity.Call;
+import com.pss.premierservicesolutions.entity.Complaint;
+import com.pss.premierservicesolutions.entity.State;
 import com.pss.premierservicesolutions.repositories.ComplaintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClientSatisfactionSerivice {
 
     @Autowired
@@ -16,7 +18,7 @@ public class ClientSatisfactionSerivice {
     public void makeCallToClient(long clientId){}
 
     public Complaint viewComplaint(long complaintId){
-        return complaintRepository.getOne(1);
+        return complaintRepository.getOne(complaintId);
     }
 
     public void addCallToComplaint(Call call, long complaintId){}
