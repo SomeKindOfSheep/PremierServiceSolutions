@@ -37,7 +37,6 @@ public class Client {
     private ClientType clientType;
 
     @OneToMany
-    @Nullable
     private List<Contract> contract;
 
     @OneToMany

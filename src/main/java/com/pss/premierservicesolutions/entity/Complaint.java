@@ -18,11 +18,18 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "complaintSeq", sequenceName = "complaint_seq", schema = "premier_service_solutions", allocationSize = 1)
     private long id;
-    @OneToMany
-    private List<Call> callsLinkedToComplaint;
+
+    @Column(name = "description")
+    private String description;
 
     @Enumerated(EnumType.STRING)
     private State state;
+
+    @OneToMany
+    private List<Call> callsLinkedToComplaint;
+
+    @OneToMany
+    private List<FollowUp> followUp;
 
 
 }

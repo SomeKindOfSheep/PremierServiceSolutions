@@ -15,8 +15,8 @@ public class ClientMaintenanceService {
     @Autowired
     ClientRepository clientRepository;
 
-    public void addClient(Client client){
-        clientRepository.saveAndFlush(client);
+    public Client addClient(Client client){
+       return clientRepository.saveAndFlush(client);
     }
 
     public Optional<Client> getClientById(long clientId){

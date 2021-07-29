@@ -24,8 +24,8 @@ public class ClientMaintenanceController {
 
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addClient(@RequestBody Client client){
-        clientMaintenanceService.addClient(client);
+    public Client addClient(@RequestBody Client client){
+       return clientMaintenanceService.addClient(client);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
