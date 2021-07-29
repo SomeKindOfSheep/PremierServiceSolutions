@@ -1,9 +1,11 @@
 package com.pss.premierservicesolutions.services;
 
 
+import com.pss.premierservicesolutions.entity.Client;
 import com.pss.premierservicesolutions.entity.Complaint;
 import com.pss.premierservicesolutions.entity.FollowUp;
 import com.pss.premierservicesolutions.entity.State;
+import com.pss.premierservicesolutions.repositories.ClientRepository;
 import com.pss.premierservicesolutions.repositories.ComplaintRepository;
 import com.pss.premierservicesolutions.repositories.FollowUpRespository;
 import org.springframework.beans.BeanUtils;
@@ -22,12 +24,18 @@ public class ClientSatisfactionService {
     @Autowired
     FollowUpRespository followUpRespository;
 
+    @Autowired
+    ClientRepository clientRepository;
+
 
     public Optional<Complaint> viewComplaint(long complaintId){
         return complaintRepository.findById(complaintId);
     }
 
-    public Complaint addComplaint(Complaint complaint){
+    public Complaint addComplaint(Complaint complaint, long clientId){
+        Client client = clientRepository.findById(clientId).get();
+        complaint.setClient(client);
+        BeanUtils.copyProperties(complaint, complaint, "id");
        return complaintRepository.saveAndFlush(complaint);
     }
 

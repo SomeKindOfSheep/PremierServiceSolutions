@@ -25,6 +25,9 @@ public class Complaint {
     @Enumerated(EnumType.STRING)
     private State state;
 
+    @ManyToOne
+    private Client client;
+
     @OneToMany
     private List<Call> callsLinkedToComplaint;
 

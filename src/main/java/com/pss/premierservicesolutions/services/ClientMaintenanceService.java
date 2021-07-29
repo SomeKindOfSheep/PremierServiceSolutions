@@ -1,13 +1,19 @@
 package com.pss.premierservicesolutions.services;
 
 
+import com.pss.premierservicesolutions.controllers.clientMaintenance.MaintenanceDTO;
+import com.pss.premierservicesolutions.entity.Call;
 import com.pss.premierservicesolutions.entity.Client;
+import com.pss.premierservicesolutions.entity.Contract;
 import com.pss.premierservicesolutions.repositories.ClientRepository;
+import com.pss.premierservicesolutions.repositories.ContractRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class ClientMaintenanceService {
@@ -15,19 +21,51 @@ public class ClientMaintenanceService {
     @Autowired
     ClientRepository clientRepository;
 
-    public Client addClient(Client client){
-       return clientRepository.saveAndFlush(client);
+    @Autowired
+    ContractRepository contractRepository;
+
+    public Client createClient(Client client, long contractId){
+        Client savedClient = clientRepository.saveAndFlush(client);
+        List<Contract> contracts = new ArrayList<>();
+        Contract contract = contractRepository.findById(contractId).get();
+        contracts.add(contract);
+
+        savedClient.setContract(contracts);
+        BeanUtils.copyProperties(savedClient,savedClient, "id");
+        return clientRepository.saveAndFlush(savedClient);
     }
 
-    public Optional<Client> getClientById(long clientId){
-        return clientRepository.findById(clientId);
+    public MaintenanceDTO getClientById(long clientId){
+        return mapDTO(clientRepository.findById(clientId).get());
     }
 
 
-    public Client updateClientDetails(long clientId, Client client){
+    public MaintenanceDTO updateClientDetails(long clientId, Client client){
         Client existingClient = clientRepository.getOne(clientId);
+        client.setContract(existingClient.getContract());
+        client.setCalls(existingClient.getCalls());
         BeanUtils.copyProperties(client,existingClient,"id");
-        return clientRepository.saveAndFlush(existingClient);
+        clientRepository.saveAndFlush(existingClient);
+        return getClientById(clientId);
+    }
+
+    private MaintenanceDTO mapDTO (Client client){
+        MaintenanceDTO dto = new MaintenanceDTO();
+        dto.setId(client.getId());
+        dto.setFullName(client.getFullName());
+        dto.setAddress(client.getAddress());
+        dto.setEMail(client.getEMail());
+        dto.setTelephone(client.getTelephone());
+        dto.setClientType(client.getClientType());
+        List<Long> ids = new ArrayList<Long>();
+        for (Call calls: client.getCalls()){
+            ids.add(calls.getId());
+        }
+        dto.setCallIds(ids);
+        dto.setContract(client.getContract());
+
+        return dto;
+
     }
 
 }
