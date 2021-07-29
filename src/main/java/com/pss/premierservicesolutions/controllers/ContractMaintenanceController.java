@@ -14,6 +14,13 @@ import java.util.Optional;
 @RequestMapping("/contract")
 public class ContractMaintenanceController {
 
+    /*
+    • Define services offered
+    • Define service levels
+    • Define contract types as packages of services and service level agreements
+    • Manage availability of contract types
+    • View performance of contract types*/
+
     @Autowired
     ContractMaintenanceService contractMaintenanceService;
 

@@ -22,8 +22,8 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    public void createEmployee(Employee employee){
-        employeeRepository.saveAndFlush(employee);
+    public Employee createEmployee(Employee employee){
+        return employeeRepository.saveAndFlush(employee);
     }
 
 

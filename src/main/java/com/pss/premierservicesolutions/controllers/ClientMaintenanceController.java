@@ -14,6 +14,12 @@ import java.util.Optional;
 @RequestMapping("/client")
 public class ClientMaintenanceController {
 
+    /*
+    • Capture and maintain details for individual client
+    • Capture and maintain details for business client
+    • Capture details of service agreements with client
+    • Capture management information about client*/
+
     @Autowired
     ClientMaintenanceService clientMaintenanceService;
 

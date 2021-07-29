@@ -29,8 +29,8 @@ public class EmployeeController {
 
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createEmployee(@RequestBody Employee employee){
-         employeeService.createEmployee(employee);
+    public Employee createEmployee(@RequestBody Employee employee){
+       return employeeService.createEmployee(employee);
     }
     
 

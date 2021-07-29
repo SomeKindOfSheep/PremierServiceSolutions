@@ -15,6 +15,14 @@ import java.util.Optional;
 @RequestMapping("/satisfaction")
 public class ClientSatisfactionController {
 
+        /*
+        • Receive reports of events that may require client contact (may be a follow-up)
+        • Initiate outgoing calls
+        • Receive incoming calls
+        • Capture contents and outcome of a call
+        • Create a follow-up action if required
+        • End call*/
+
     @Autowired
     ClientSatisfactionService clientSatisfactionService;
 

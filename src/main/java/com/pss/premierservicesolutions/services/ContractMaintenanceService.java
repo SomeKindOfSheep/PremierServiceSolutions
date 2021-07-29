@@ -32,10 +32,6 @@ public class ContractMaintenanceService {
 
     public Contract createContract(Contract contract, long contractTypeId, long employeeId, long slaId) {
 
-        /*Employee employee = employeeRepository.findById(employeeId).get();
-        call.setEmployee(employee);
-        return callRepository.saveAndFlush(call);*/
-
         ContractType contractType = contractTypeRepository.findById(contractTypeId).get();
         Employee employee = employeeRepository.findById(employeeId).get();
         ServiceLevelAgreement sla = serviceLevelAgreementRepository.findById(slaId).get();

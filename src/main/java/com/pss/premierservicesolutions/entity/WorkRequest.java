@@ -19,23 +19,29 @@ public class WorkRequest {
     @SequenceGenerator(name = "workRequestSeq", sequenceName = "work_request_seq", schema = "premier_service_solutions", allocationSize = 1)
     private long id;
 
+    @Column(name = "work_request_priority")
+    @Enumerated(EnumType.STRING)
+    private WorkRequestPriority workRequestPriority;
+
+    @OneToMany
+    private List<Call> calls;
+
+    @Column(name = "description_of_problem")
+    private String descriptionOfProblem;
+
+    @Column(name = "description_of_solution")
+    private String descriptionOfSolution;
+
+    @Column(name = "estimated_time_to_completion")
+    private long estimatedTimeToCompletion;
+
     @OneToMany
     private List<Employee> employee;
 
     @OneToOne
     private Client client;
 
-    @Column(name = "work_request_priority")
-    @Enumerated(EnumType.STRING)
-    private WorkRequestPriority workRequestPriority;
-
     @Enumerated(EnumType.STRING)
     private State state;
-
-    @OneToMany
-    private List<Call> calls;
-
-    @OneToOne
-    private WorkRequestMetaData workRequestMetaData;
 
 }

@@ -3,12 +3,16 @@ package com.pss.premierservicesolutions.services;
 import com.pss.premierservicesolutions.entity.Employee;
 import com.pss.premierservicesolutions.entity.State;
 import com.pss.premierservicesolutions.entity.WorkRequest;
+import com.pss.premierservicesolutions.entity.WorkRequestPriority;
+import com.pss.premierservicesolutions.repositories.ClientRepository;
 import com.pss.premierservicesolutions.repositories.EmployeeRepository;
 import com.pss.premierservicesolutions.repositories.WorkRequestRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkRequestService {
@@ -19,25 +23,51 @@ public class WorkRequestService {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @Autowired
+    ClientRepository clientRepository;
 
-    public void addWorkRequestService(WorkRequest workRequest){
+    public WorkRequest addWorkRequest(WorkRequest workRequest, long clientId) {
+
+        workRequest.setClient(clientRepository.findById(clientId).get());
+
+        return workRequestRepository.saveAndFlush(workRequest);
     }
 
-    public void submitWorkRequest(WorkRequest workRequest){
-
+    public Optional<WorkRequest> viewWorkRequestById(long workRequestId) {
+        return workRequestRepository.findById(workRequestId);
     }
-    public WorkRequest viewWorkRequest(long workRequestId){return null;}
 
-    public void addTechniciansToRequest(long workRequestId, List<Employee> employees){}
+    public WorkRequest addTechniciansToRequest(long workRequestId, long technicianId) {
+        WorkRequest workRequest = viewWorkRequestById(workRequestId).get();
+        List<Employee> technicians = workRequest.getEmployee();
+        technicians.add(employeeRepository.findById(technicianId).get());
+        BeanUtils.copyProperties(workRequest, workRequest, "id");
 
-    public List<Employee>  viewTechniciansOnRequest(long workRequestId){
+        return workRequestRepository.saveAndFlush(workRequest);
+    }
+
+    // if you view the request, you'll see all the employees
+    /*public List<Employee>  viewTechniciansOnRequest(long workRequestId){
         return null;
+    }*/
+
+    public WorkRequest changeState(State state, long workRequestId) {
+
+        WorkRequest workRequest = viewWorkRequestById(workRequestId).get();
+        workRequest.setState(state);
+        BeanUtils.copyProperties(workRequest, workRequest, "id");
+        return workRequestRepository.saveAndFlush(workRequest);
     }
 
-    public void changeState(State state){}
+    public WorkRequest changePriority(WorkRequestPriority priority, long workRequestId ) {
+        WorkRequest workRequest = viewWorkRequestById(workRequestId).get();
+        workRequest.setWorkRequestPriority(priority);
+        BeanUtils.copyProperties(workRequest, workRequest, "id");
+        return workRequestRepository.saveAndFlush(workRequest);
+    }
 
-    public void escalateRequest(State state){}
-
-    public void closeWorkRequest(long workRequestId){}
+    // part of the change state
+    /*public void closeWorkRequest(long workRequestId) {
+    }*/
 
 }

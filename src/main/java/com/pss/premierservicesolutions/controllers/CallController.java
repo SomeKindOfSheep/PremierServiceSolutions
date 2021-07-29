@@ -13,6 +13,16 @@ import java.util.Optional;
 @RequestMapping("/call")
 public class CallController {
 
+   /*
+    • Answer incoming call
+    • Find client details
+    • Log details of client problem
+    • View customer agreement(s)
+    • View details of previous calls to/from client
+    • Submit work request if appropriate
+    • Add call to existing work request if appropriate
+    • End call*/
+
     @Autowired
     CallMapService callMapService;
 
