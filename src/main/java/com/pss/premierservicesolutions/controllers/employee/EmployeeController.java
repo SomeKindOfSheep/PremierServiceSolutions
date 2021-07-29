@@ -19,7 +19,7 @@ public class EmployeeController {
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON)
     public List<Employee> getAllEmployees(){
-        return employeeService.getAllActiveEmployees();
+        return employeeService.getAllEmployees();
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON)
@@ -31,6 +31,12 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.CREATED)
     public Employee createEmployee(@RequestBody Employee employee){
        return employeeService.createEmployee(employee);
+    }
+
+    @DeleteMapping(path = "/{employeeId}", produces = MediaType.APPLICATION_JSON)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee removeEmployee(@PathVariable long employeeId){
+        return employeeService.removeEmployee(employeeId);
     }
     
 

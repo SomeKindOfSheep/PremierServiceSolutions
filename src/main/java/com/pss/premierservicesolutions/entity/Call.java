@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -35,6 +36,6 @@ public class Call {
 
     @Column(name = "end_time")
     @CreationTimestamp
-    private Date endTime;
+    private LocalDate endTime;
 
 }

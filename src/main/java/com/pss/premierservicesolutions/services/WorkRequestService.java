@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Deprecated
 public class WorkRequestService {
 
     @Autowired

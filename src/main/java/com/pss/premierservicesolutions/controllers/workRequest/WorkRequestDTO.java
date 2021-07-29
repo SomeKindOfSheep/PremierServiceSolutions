@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Deprecated
 public class WorkRequestDTO {
 
     private long id;

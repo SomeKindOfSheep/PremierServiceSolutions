@@ -1,8 +1,11 @@
 package com.pss.premierservicesolutions.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -12,6 +15,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name="work_request")
+@Deprecated
 public class WorkRequest {
 
     @Id
@@ -34,6 +38,13 @@ public class WorkRequest {
 
     @Column(name = "estimated_time_to_completion")
     private long estimatedTimeToCompletion;
+
+    @Column(name = "date_created")
+    @CreationTimestamp
+    private LocalDate date_created;
+
+    @Column(name = "date_resolved")
+    private LocalDate date_resolved;
 
     @OneToMany
     private List<Employee> employee;

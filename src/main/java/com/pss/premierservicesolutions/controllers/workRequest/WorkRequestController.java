@@ -9,10 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.core.MediaType;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/workrequest")
+@Deprecated
 public class WorkRequestController {
 
     /*

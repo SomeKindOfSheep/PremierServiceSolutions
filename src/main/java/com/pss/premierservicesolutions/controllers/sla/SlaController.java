@@ -30,8 +30,8 @@ public class SlaController {
 
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createEmployee(@RequestBody ServiceLevelAgreement sla){
-        slaService.createSla(sla);
+    public ServiceLevelAgreement createSla(@RequestBody ServiceLevelAgreement sla){
+        return slaService.createSla(sla);
     }
 
 }

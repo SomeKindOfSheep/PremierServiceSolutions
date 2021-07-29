@@ -5,7 +5,6 @@ import com.pss.premierservicesolutions.repositories.ServiceLevelAgreementReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +22,7 @@ public class ServiceLevelAgreementService {
         return serviceLevelAgreementRepository.findById(id);
     }
 
-    public void createSla(ServiceLevelAgreement serviceLevelAgreement){
-        serviceLevelAgreementRepository.saveAndFlush(serviceLevelAgreement);
+    public ServiceLevelAgreement createSla(ServiceLevelAgreement serviceLevelAgreement){
+        return serviceLevelAgreementRepository.saveAndFlush(serviceLevelAgreement);
     }
 }

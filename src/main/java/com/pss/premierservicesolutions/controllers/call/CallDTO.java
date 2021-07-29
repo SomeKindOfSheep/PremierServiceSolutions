@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -17,7 +18,7 @@ public class CallDTO {
     private String callSummary;
     private boolean outgoing;
     private int duration;
-    private Date endTime;
+    private LocalDate endTime;
     private long employeeId;
 
 }

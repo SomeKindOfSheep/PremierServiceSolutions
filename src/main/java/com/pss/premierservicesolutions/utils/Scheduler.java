@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableAsync
+@Deprecated
 public class Scheduler {
     @Async
     @Scheduled(fixedRate = 1000)

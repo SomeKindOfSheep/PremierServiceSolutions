@@ -3,6 +3,7 @@ package com.pss.premierservicesolutions.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -32,10 +33,10 @@ public class Contract {
     private ServiceLevelAgreement serviceLevelAgreement;
 
     @Column(name = "date_from")
-    private Date dateFrom;
+    private LocalDate dateFrom;
 
     @Column(name = "date_to")
-    private Date dateTo;
+    private LocalDate dateTo;
 
 
 }
