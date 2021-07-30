@@ -5,6 +5,8 @@ import com.pss.premierservicesolutions.entity.Client;
 import com.pss.premierservicesolutions.entity.Complaint;
 import com.pss.premierservicesolutions.entity.FollowUp;
 import com.pss.premierservicesolutions.entity.State;
+import com.pss.premierservicesolutions.entity.exception.NoIdException;
+import com.pss.premierservicesolutions.entity.exception.ResourceNotFoundException;
 import com.pss.premierservicesolutions.repositories.ClientRepository;
 import com.pss.premierservicesolutions.repositories.ComplaintRepository;
 import com.pss.premierservicesolutions.repositories.FollowUpRespository;
@@ -32,34 +34,33 @@ public class ClientSatisfactionService {
         return complaintRepository.findById(complaintId);
     }
 
-    public Complaint addComplaint(Complaint complaint, long clientId){
-        Client client = clientRepository.findById(clientId).get();
+    public Complaint addComplaint(Complaint complaint, long clientId) throws ResourceNotFoundException {
+        Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client with id " + clientId + " not found"));
         complaint.setClient(client);
         BeanUtils.copyProperties(complaint, complaint, "id");
        return complaintRepository.saveAndFlush(complaint);
     }
-
+    // for future use
     public List<FollowUp> getAllFollowUpsForComplaint(long complaintId){
             return complaintRepository.findById(complaintId).get().getFollowUp();
     }
 
-    public Complaint updateComplaintState(State state, long complaintId) {
-        Complaint complaint = viewComplaint(complaintId).get();
+    public Complaint updateComplaintState(State state, long complaintId) throws ResourceNotFoundException {
+        Complaint complaint = viewComplaint(complaintId).orElseThrow(() -> new ResourceNotFoundException("Complaint with id " + complaintId + " not found"));
         complaint.setState(state);
         BeanUtils.copyProperties(complaint, complaint, "id");
         return complaintRepository.saveAndFlush(complaint);
     }
 
-    public FollowUp updateFollowUpState(State state, long followUpId) {
-        FollowUp followUp = followUpRespository.findById(followUpId).get();
+    public FollowUp updateFollowUpState(State state, long followUpId) throws ResourceNotFoundException {
+        FollowUp followUp = followUpRespository.findById(followUpId).orElseThrow(() -> new ResourceNotFoundException("Follow up with id " + followUpId + " not found"));
         followUp.setState(state);
         BeanUtils.copyProperties(followUp, followUp, "id");
         return followUpRespository.saveAndFlush(followUp);
     }
 
-
-    public Complaint addFollowUp(FollowUp followUp, long complaintId){
-        Complaint complaint = viewComplaint(complaintId).get();
+    public Complaint addFollowUp(FollowUp followUp, long complaintId) throws ResourceNotFoundException {
+        Complaint complaint = viewComplaint(complaintId).orElseThrow(() -> new ResourceNotFoundException("Complaint up with id " + complaintId + " not found"));
         FollowUp followUpReturn = followUpRespository.saveAndFlush(followUp);
 
         List<FollowUp> followUps = complaint.getFollowUp();
@@ -72,9 +73,6 @@ public class ClientSatisfactionService {
         return complaintRepository.saveAndFlush(complaint);
     }
 
-
-
-    //public void addCallToComplaint(Call call, long complaintId){}
 
 }
 

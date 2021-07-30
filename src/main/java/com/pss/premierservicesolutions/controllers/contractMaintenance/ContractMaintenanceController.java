@@ -2,10 +2,14 @@ package com.pss.premierservicesolutions.controllers.contractMaintenance;
 
 import com.pss.premierservicesolutions.entity.Contract;
 import com.pss.premierservicesolutions.entity.ContractType;
+import com.pss.premierservicesolutions.exception.MessagingAPIException;
+import com.pss.premierservicesolutions.exception.MessagingAPIExceptionMessage;
+import com.pss.premierservicesolutions.exception.MessagingAPII18nMessageResolver;
 import com.pss.premierservicesolutions.services.ContractMaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Optional;
@@ -17,8 +21,8 @@ public class ContractMaintenanceController {
     /*
     • Define services offered - done
     • Define service levels - done
-    • Define contract types as packages of services and service level agreements - not sure
-    • Manage availability of contract types - TODO
+    • Define contract types as packages of services and service level agreements - not in my architecture
+    • Manage availability of contract types - done
     • View performance of contract types - TODO
     • View customer agreement(s) - done
     */
@@ -26,8 +30,15 @@ public class ContractMaintenanceController {
     @Autowired
     ContractMaintenanceService contractMaintenanceService;
 
+    @Autowired
+    MessagingAPII18nMessageResolver messagingAPII18nMessageResolver;
+
     @GetMapping(path = "/{contractTypeId}/type", produces = MediaType.APPLICATION_JSON)
     public Optional<ContractType> getContractType(@PathVariable String contractTypeId){
+        if (StringUtils.isEmpty(contractTypeId)){
+            throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
+                    messagingAPII18nMessageResolver);
+        }
         return contractMaintenanceService.getContractType(Long.parseLong(contractTypeId));
     }
 
@@ -39,6 +50,10 @@ public class ContractMaintenanceController {
 
     @GetMapping(path = "/{contractId}", produces = MediaType.APPLICATION_JSON)
     public Optional<Contract> viewContract(@PathVariable String contractId){
+        if (StringUtils.isEmpty(contractId)){
+            throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
+                    messagingAPII18nMessageResolver);
+        }
         return contractMaintenanceService.viewContract(Long.parseLong(contractId));
     }
 
@@ -49,8 +64,11 @@ public class ContractMaintenanceController {
                                     @PathVariable String contractTypeId,
                                     @PathVariable String employeeId,
                                     @PathVariable String slaId ){
+        if (StringUtils.isEmpty(contractTypeId) || StringUtils.isEmpty(employeeId) || StringUtils.isEmpty(slaId)){
+            throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
+                    messagingAPII18nMessageResolver);
+        }
         return contractMaintenanceService.createContract(contract, Long.parseLong(contractTypeId),Long.parseLong(employeeId),Long.parseLong(slaId));
     }
-
 
 }
