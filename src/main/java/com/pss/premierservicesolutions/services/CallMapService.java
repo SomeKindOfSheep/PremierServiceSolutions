@@ -2,12 +2,12 @@ package com.pss.premierservicesolutions.services;
 
 import com.pss.premierservicesolutions.controllers.call.CallDTO;
 import com.pss.premierservicesolutions.entity.*;
+import com.pss.premierservicesolutions.entity.exception.ResourceNotFoundException;
 import com.pss.premierservicesolutions.repositories.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,9 +33,9 @@ public class CallMapService {
         return callRepository.findById(callId);
     }
 
-    public CallDTO submitClientLinkedCall(Call call, long employeeId, long clientId) {
-        Employee employee = employeeRepository.findById(employeeId).get();
-        Client client = clientRepository.findById(clientId).get();
+    public CallDTO submitClientLinkedCall(Call call, long employeeId, long clientId) throws ResourceNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee with id " + employeeId + " not found"));
+        Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client with id " + clientId + " not found"));
         call.setEmployee(employee);
         Call returnedCall = callRepository.saveAndFlush(call);
 
@@ -47,9 +47,9 @@ public class CallMapService {
         return mapDto(call);
     }
 
-    public CallDTO submitComplaintLinkedCall(Call call, long employeeId, long complaintId) {
-        Employee employee = employeeRepository.findById(employeeId).get();
-        Complaint complaint = complaintRepository.findById(complaintId).get();
+    public CallDTO submitComplaintLinkedCall(Call call, long employeeId, long complaintId) throws ResourceNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee with id " + employeeId + " not found"));
+        Complaint complaint = complaintRepository.findById(complaintId).orElseThrow(() -> new ResourceNotFoundException("Complaint with id " + complaintId + " not found"));
         call.setEmployee(employee);
         Call returnedCall = callRepository.saveAndFlush(call);
 
@@ -60,26 +60,26 @@ public class CallMapService {
         return mapDto(call);
     }
 
-    public CallDTO submitNotLinkedCall(Call call, long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).get();
+    public CallDTO submitNotLinkedCall(Call call, long employeeId) throws ResourceNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee with id " + employeeId + " not found"));
         call.setEmployee(employee);
         callRepository.saveAndFlush(call);
         return mapDto(call);
     }
 
 
-    public CallDTO submitWorkLinkedCall(Call call, long employeeId, long workRequestId) {
-        Employee employee = employeeRepository.findById(employeeId).get();
+    public CallDTO submitWorkLinkedCall(Call call, long employeeId, long workRequestId) throws ResourceNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee with id " + employeeId + " not found"));
         call.setEmployee(employee);
         BeanUtils.copyProperties(call, call, "id");
         Call returnCall = callRepository.saveAndFlush(call);
 
-        WorkRequest workRequest = workRequestRepository.findById(workRequestId).get();
+        WorkRequest workRequest = workRequestRepository.findById(workRequestId).orElseThrow(() -> new ResourceNotFoundException("Work request with id " + workRequestId + " not found"));
         List<Call> workRequestCalls = workRequest.getCalls();
         workRequestCalls.add(returnCall);
         BeanUtils.copyProperties(workRequest, workRequest, "id");
 
-        Client client = clientRepository.findById(workRequest.getClient().getId()).get();
+        Client client = clientRepository.findById(workRequest.getClient().getId()).orElseThrow(() -> new ResourceNotFoundException("Client not found"));
         List<Call> clientCalls = client.getCalls();
         clientCalls.add(returnCall);
         BeanUtils.copyProperties(client, client, "id");
@@ -101,5 +101,4 @@ public class CallMapService {
 
         return callDTO;
     }
-
 }

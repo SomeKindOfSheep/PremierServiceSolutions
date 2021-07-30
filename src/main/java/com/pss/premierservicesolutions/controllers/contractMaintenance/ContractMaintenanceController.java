@@ -2,6 +2,7 @@ package com.pss.premierservicesolutions.controllers.contractMaintenance;
 
 import com.pss.premierservicesolutions.entity.Contract;
 import com.pss.premierservicesolutions.entity.ContractType;
+import com.pss.premierservicesolutions.entity.exception.ResourceNotFoundException;
 import com.pss.premierservicesolutions.exception.MessagingAPIException;
 import com.pss.premierservicesolutions.exception.MessagingAPIExceptionMessage;
 import com.pss.premierservicesolutions.exception.MessagingAPII18nMessageResolver;
@@ -63,12 +64,32 @@ public class ContractMaintenanceController {
     public Contract addContract(@RequestBody Contract contract,
                                     @PathVariable String contractTypeId,
                                     @PathVariable String employeeId,
-                                    @PathVariable String slaId ){
+                                    @PathVariable String slaId ) throws ResourceNotFoundException {
         if (StringUtils.isEmpty(contractTypeId) || StringUtils.isEmpty(employeeId) || StringUtils.isEmpty(slaId)){
             throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
                     messagingAPII18nMessageResolver);
         }
         return contractMaintenanceService.createContract(contract, Long.parseLong(contractTypeId),Long.parseLong(employeeId),Long.parseLong(slaId));
+    }
+
+    @DeleteMapping(path = "/{contractId}", produces = MediaType.APPLICATION_JSON)
+    @ResponseStatus(HttpStatus.OK)
+    public Contract removeContract(@PathVariable String contractId) throws ResourceNotFoundException {
+        if (StringUtils.isEmpty(contractId)){
+            throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
+                    messagingAPII18nMessageResolver);
+        }
+        return contractMaintenanceService.removeContract(Long.parseLong(contractId));
+    }
+
+    @PutMapping(path = "/{contractId}/{slaId}", produces = MediaType.APPLICATION_JSON)
+    @ResponseStatus(HttpStatus.OK)
+    public Contract linkSlaToContract(@PathVariable String contractId, @PathVariable String slaId) throws ResourceNotFoundException {
+        if (StringUtils.isEmpty(contractId)){
+            throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
+                    messagingAPII18nMessageResolver);
+        }
+        return contractMaintenanceService.addSlaToContract(Long.parseLong(contractId),Long.parseLong(slaId));
     }
 
 }

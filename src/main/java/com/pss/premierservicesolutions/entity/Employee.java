@@ -30,6 +30,9 @@ public class Employee {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "password", columnDefinition = "varchar(1000)")
+    private String password;
+
     @Column(name = "employee_type")
     @Enumerated(EnumType.STRING)
     private EmployeeType employeeType;

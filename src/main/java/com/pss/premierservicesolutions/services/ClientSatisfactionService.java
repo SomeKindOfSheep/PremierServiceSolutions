@@ -5,7 +5,6 @@ import com.pss.premierservicesolutions.entity.Client;
 import com.pss.premierservicesolutions.entity.Complaint;
 import com.pss.premierservicesolutions.entity.FollowUp;
 import com.pss.premierservicesolutions.entity.State;
-import com.pss.premierservicesolutions.entity.exception.NoIdException;
 import com.pss.premierservicesolutions.entity.exception.ResourceNotFoundException;
 import com.pss.premierservicesolutions.repositories.ClientRepository;
 import com.pss.premierservicesolutions.repositories.ComplaintRepository;

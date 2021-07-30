@@ -2,6 +2,7 @@ package com.pss.premierservicesolutions.controllers.call;
 
 import com.pss.premierservicesolutions.entity.Call;
 import com.pss.premierservicesolutions.entity.WorkRequest;
+import com.pss.premierservicesolutions.entity.exception.ResourceNotFoundException;
 import com.pss.premierservicesolutions.exception.MessagingAPIException;
 import com.pss.premierservicesolutions.exception.MessagingAPIExceptionMessage;
 import com.pss.premierservicesolutions.exception.MessagingAPII18nMessageResolver;
@@ -46,7 +47,7 @@ public class CallController {
 
     @PostMapping(path = "/submit/{employeeId}", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public CallDTO submitCall(@RequestBody Call call, @PathVariable String employeeId){
+    public CallDTO submitCall(@RequestBody Call call, @PathVariable String employeeId) throws ResourceNotFoundException {
         if (StringUtils.isEmpty(employeeId)){
             throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
                     messagingAPII18nMessageResolver);
@@ -56,7 +57,7 @@ public class CallController {
 
     @PutMapping(path = "/submitwork/{employeeId}/{workRequestId}", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public CallDTO submitWorkLinkedCall(@RequestBody Call call, @PathVariable String employeeId, @PathVariable String workRequestId){
+    public CallDTO submitWorkLinkedCall(@RequestBody Call call, @PathVariable String employeeId, @PathVariable String workRequestId) throws ResourceNotFoundException {
         if (StringUtils.isEmpty(employeeId) || StringUtils.isEmpty(workRequestId)){
             throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
                     messagingAPII18nMessageResolver);
@@ -66,7 +67,7 @@ public class CallController {
 
     @PutMapping(path = "/submitclient/{employeeId}/{clientId}", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public CallDTO submitClientLinkedCall(@RequestBody Call call, @PathVariable String employeeId, @PathVariable String clientId){
+    public CallDTO submitClientLinkedCall(@RequestBody Call call, @PathVariable String employeeId, @PathVariable String clientId) throws ResourceNotFoundException {
         if (StringUtils.isEmpty(employeeId) || StringUtils.isEmpty(clientId)){
             throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
                     messagingAPII18nMessageResolver);
@@ -76,7 +77,7 @@ public class CallController {
 
     @PutMapping(path = "/submitcomplaint/{employeeId}/{complaintId}", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public CallDTO submitComplaintLinkedCall(@RequestBody Call call, @PathVariable String employeeId, @PathVariable String complaintId){
+    public CallDTO submitComplaintLinkedCall(@RequestBody Call call, @PathVariable String employeeId, @PathVariable String complaintId) throws ResourceNotFoundException {
         if (StringUtils.isEmpty(employeeId) || StringUtils.isEmpty(complaintId)){
             throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
                     messagingAPII18nMessageResolver);

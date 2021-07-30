@@ -1,6 +1,7 @@
 package com.pss.premierservicesolutions.controllers.clientMaintenance;
 
 import com.pss.premierservicesolutions.entity.Client;
+import com.pss.premierservicesolutions.entity.exception.ResourceNotFoundException;
 import com.pss.premierservicesolutions.exception.MessagingAPIException;
 import com.pss.premierservicesolutions.exception.MessagingAPIExceptionMessage;
 import com.pss.premierservicesolutions.exception.MessagingAPII18nMessageResolver;
@@ -32,7 +33,7 @@ public class ClientMaintenanceController {
     ClientMaintenanceService clientMaintenanceService;
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON)
-    public MaintenanceDTO getClientById(@PathVariable String id){
+    public MaintenanceDTO getClientById(@PathVariable String id) throws ResourceNotFoundException {
         if (StringUtils.isEmpty(id)){
             throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
                     messagingAPII18nMessageResolver);
@@ -42,7 +43,7 @@ public class ClientMaintenanceController {
 
     @PostMapping(path = "/{contractId}", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public Client addClient(@RequestBody Client client, @PathVariable String contractId){
+    public Client addClient(@RequestBody Client client, @PathVariable String contractId) throws ResourceNotFoundException {
         if (StringUtils.isEmpty(contractId)){
             throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
                     messagingAPII18nMessageResolver);
@@ -52,7 +53,7 @@ public class ClientMaintenanceController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.CREATED)
-    public MaintenanceDTO updateClientDetails(@PathVariable String id, @RequestBody Client client){
+    public MaintenanceDTO updateClientDetails(@PathVariable String id, @RequestBody Client client) throws ResourceNotFoundException {
         if (StringUtils.isEmpty(id)){
             throw MessagingAPIException.throwException(MessagingAPIExceptionMessage.BAD_MESSAGE_400,
                     messagingAPII18nMessageResolver);
